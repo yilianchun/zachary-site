@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
-import { sameTag, sortPosts, uniqueValues } from '../../../utils/blog';
+import { sameTaxonomy, sortPosts, taxonomySlug, uniqueValues } from '../../../utils/blog';
 import { entrySlug, formatDate } from '../../../utils/content';
 
 export async function getStaticPaths() {
@@ -9,14 +9,14 @@ export async function getStaticPaths() {
   const categories = uniqueValues(posts.map((post) => post.data.category));
 
   return categories.map((category) => ({
-    params: { category },
+    params: { category: taxonomySlug(category) },
     props: { category },
   }));
 }
 
 const { category } = Astro.props;
 const posts = sortPosts((await getCollection('blog', ({ data }) => !data.draft))
-  .filter((post) => sameTag(post.data.category, category)));
+  .filter((post) => sameTaxonomy(post.data.category, category)));
 ---
 
 <BaseLayout title={`分类：${category}`} description={`Zachary 博客中 ${category} 分类的文章。`}>

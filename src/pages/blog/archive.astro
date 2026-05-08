@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
-import { sortPosts, uniqueValues } from '../../utils/blog';
+import { sortPosts, taxonomySlug, uniqueValues } from '../../utils/blog';
 import { entrySlug, formatDate } from '../../utils/content';
 
 const posts = sortPosts(await getCollection('blog', ({ data }) => !data.draft));
@@ -16,10 +16,10 @@ const tags = uniqueValues(posts.flatMap((post) => post.data.tags));
     <p class="page-lead">按时间浏览文章，也可以从分类和标签切入。</p>
 
     <div class="taxonomy-list" aria-label="博客分类">
-      {categories.map((category) => <a class="tag" href={`/blog/categories/${category}/`}>{category}</a>)}
+      {categories.map((category) => <a class="tag" href={`/blog/categories/${taxonomySlug(category)}/`}>{category}</a>)}
     </div>
     <div class="taxonomy-list" aria-label="博客标签">
-      {tags.map((tag) => <a class="tag" href={`/blog/tags/${tag}/`}>{tag}</a>)}
+      {tags.map((tag) => <a class="tag" href={`/blog/tags/${taxonomySlug(tag)}/`}>{tag}</a>)}
     </div>
 
     <ul class="content-list" aria-label="归档文章列表">
