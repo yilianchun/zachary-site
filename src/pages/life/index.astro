@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { formatDate } from '../../utils/content';
+
+const moments = (await getCollection('life'))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<BaseLayout title="Life" description="Zachary 的生活记录。">
+  <section class="page-block" aria-labelledby="life-title">
+    <p class="page-kicker">life / moments</p>
+    <h1 class="page-title" id="life-title">Life</h1>
+    <p class="page-lead">这里会像公开朋友圈一样，放一些图片、短文字和生活片段。</p>
+    <ul class="life-stream" aria-label="生活记录时间线">
+      {moments.map((moment) => (
+        <li class="life-item">
+          <span class="life-date">{formatDate(moment.data.date)}{moment.data.location ? ` / ${moment.data.location}` : ''}</span>
+          <p>{moment.data.text}</p>
+          {moment.data.images.length > 0 && (
+            <div class="life-images" aria-label="生活记录图片">
+              {moment.data.images.map((image) => (
+                <img class="life-image" src={image.src} alt={image.alt} loading="lazy" decoding="async" />
+              ))}
+            </div>
+          )}
+        </li>
+      ))}
+    </ul>
+  </section>
+</BaseLayout>

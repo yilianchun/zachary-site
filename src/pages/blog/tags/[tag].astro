@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { sameTag, sortPosts, uniqueValues } from '../../../utils/blog';
+import { entrySlug, formatDate } from '../../../utils/content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  const tags = uniqueValues(posts.flatMap((post) => post.data.tags));
+
+  return tags.map((tag) => ({
+    params: { tag },
+    props: { tag },
+  }));
+}
+
+const { tag } = Astro.props;
+const posts = sortPosts((await getCollection('blog', ({ data }) => !data.draft))
+  .filter((post) => post.data.tags.some((item) => sameTag(item, tag))));
+---
+
+<BaseLayout title={`标签：${tag}`} description={`Zachary 博客中带有 ${tag} 标签的文章。`}>
+  <section class="page-block" aria-labelledby="tag-title">
+    <p class="page-kicker">blog / tag</p>
+    <h1 class="page-title" id="tag-title">{tag}</h1>
+    <p class="page-lead">带有这个标签的文章。</p>
+    <ul class="content-list" aria-label={`${tag} 标签下的文章`}>
+      {posts.map((post) => (
+        <li class="content-row">
+          <div class="content-meta">{formatDate(post.data.date)}</div>
+          <div>
+            <h2 class="content-title"><a href={`/blog/${entrySlug(post.id)}/`}>{post.data.title}</a></h2>
+            <p class="content-summary">{post.data.summary}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </section>
+</BaseLayout>

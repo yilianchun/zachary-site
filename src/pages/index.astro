@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const entries = [
+  {
+    href: '/blog/',
+    title: 'Blog',
+    desc: '学术笔记、论文阅读与一点技术随笔。',
+  },
+  {
+    href: '/docs/',
+    title: 'Docs',
+    desc: '学习资料、研究工具与资源索引。',
+  },
+  {
+    href: '/life/',
+    title: 'Life',
+    desc: '像朋友圈一样记录一些公开片段。',
+  },
+];
+---
+
+<BaseLayout title="Zachary" description="Zachary 的个人主页入口。">
+  <section class="hero" aria-labelledby="home-title">
+    <div class="hero-panel">
+      <div>
+        <p class="eyebrow">993216.xyz / personal index</p>
+        <h1 class="hero-title" id="home-title">Zachary</h1>
+        <p class="hero-copy">
+          一个轻量的个人主页入口，连接写作、资料和生活记录。先保持干净，内容慢慢长出来。
+        </p>
+      </div>
+
+      <ul class="entry-list" aria-label="主页入口">
+        {entries.map((entry, index) => (
+          <li>
+            <a class="entry-link" href={entry.href}>
+              <span class="entry-index">0{index + 1}</span>
+              <span>
+                <span class="entry-title">{entry.title}</span>
+                <span class="entry-desc">{entry.desc}</span>
+              </span>
+              <span class="entry-arrow" aria-hidden="true">-&gt;</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,11 @@
+{
+  "date": "2026-05-09",
+  "text": "浅色技术感的首页雏形已经跑起来。Life 会先作为公开时间线，之后可以慢慢加入真实照片。",
+  "location": "Localhost",
+  "images": [
+    {
+      "src": "/life/site-light.svg",
+      "alt": "Zachary 个人主页浅色界面预览"
+    }
+  ]
+}

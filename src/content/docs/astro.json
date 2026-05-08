@@ -1,0 +1,7 @@
+{
+  "title": "Astro Docs",
+  "description": "本站使用的静态站框架文档。",
+  "group": "Web",
+  "url": "https://docs.astro.build/",
+  "tags": ["Astro", "Web"]
+}

@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { sortPosts } from '../../utils/blog';
+import { entrySlug, formatDate } from '../../utils/content';
+
+const posts = sortPosts(await getCollection('blog', ({ data }) => !data.draft));
+---
+
+<BaseLayout title="Blog" description="Zachary 的博客。">
+  <section class="page-block" aria-labelledby="blog-title">
+    <p class="page-kicker">blog / writing</p>
+    <h1 class="page-title" id="blog-title">Blog</h1>
+    <p class="page-lead">这里会放学术相关记录、论文阅读、科研工具和一些技术随笔。</p>
+    <nav class="section-nav" aria-label="博客辅助导航">
+      <a href="/blog/archive/">Archive</a>
+      <a href="/rss.xml">RSS</a>
+    </nav>
+    <ul class="content-list" aria-label="博客文章列表">
+      {posts.map((post) => (
+        <li class="content-row">
+          <div class="content-meta">
+            {formatDate(post.data.date)}<br />
+            <a href={`/blog/categories/${post.data.category}/`}>{post.data.category}</a>
+          </div>
+          <div>
+            <h2 class="content-title">
+              <a href={`/blog/${entrySlug(post.id)}/`}>{post.data.title}</a>
+            </h2>
+            <p class="content-summary">{post.data.summary}</p>
+            <div class="tag-list" aria-label={`${post.data.title} 的标签`}>
+              {post.data.tags.map((tag) => <a class="tag" href={`/blog/tags/${tag}/`}>{tag}</a>)}
+            </div>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </section>
+</BaseLayout>

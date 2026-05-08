@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { sortPosts, uniqueValues } from '../../utils/blog';
+import { entrySlug, formatDate } from '../../utils/content';
+
+const posts = sortPosts(await getCollection('blog', ({ data }) => !data.draft));
+const categories = uniqueValues(posts.map((post) => post.data.category));
+const tags = uniqueValues(posts.flatMap((post) => post.data.tags));
+---
+
+<BaseLayout title="Archive" description="Zachary 的博客归档。">
+  <section class="page-block" aria-labelledby="archive-title">
+    <p class="page-kicker">blog / archive</p>
+    <h1 class="page-title" id="archive-title">Archive</h1>
+    <p class="page-lead">按时间浏览文章，也可以从分类和标签切入。</p>
+
+    <div class="taxonomy-list" aria-label="博客分类">
+      {categories.map((category) => <a class="tag" href={`/blog/categories/${category}/`}>{category}</a>)}
+    </div>
+    <div class="taxonomy-list" aria-label="博客标签">
+      {tags.map((tag) => <a class="tag" href={`/blog/tags/${tag}/`}>{tag}</a>)}
+    </div>
+
+    <ul class="content-list" aria-label="归档文章列表">
+      {posts.map((post) => (
+        <li class="content-row">
+          <div class="content-meta">{formatDate(post.data.date)}</div>
+          <div>
+            <h2 class="content-title"><a href={`/blog/${entrySlug(post.id)}/`}>{post.data.title}</a></h2>
+            <p class="content-summary">{post.data.summary}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </section>
+</BaseLayout>

@@ -1,0 +1,65 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Zachary',
+  description = 'Zachary 的个人主页。',
+} = Astro.props;
+
+const siteTitle = title === 'Zachary' ? title : `${title} | Zachary`;
+const siteURL = Astro.site ?? new URL('https://993216.xyz');
+const canonicalURL = new URL(Astro.url.pathname, siteURL);
+const imageURL = new URL('/life/site-light.svg', siteURL);
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#f7f8f4" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="canonical" href={canonicalURL} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Zachary" />
+    <meta property="og:title" content={siteTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={imageURL} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={siteTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageURL} />
+    <title>{siteTitle}</title>
+  </head>
+  <body>
+    <div class="site-shell">
+      <header class="site-header" aria-label="站点页眉">
+        <a class="brand-mark" href="/" aria-label="回到 Zachary 首页">
+          <span class="brand-symbol" aria-hidden="true">Z</span>
+          <span>Zachary</span>
+        </a>
+        <nav class="top-nav" aria-label="主导航">
+          <a href="/blog/">Blog</a>
+          <a href="/docs/">Docs</a>
+          <a href="/life/">Life</a>
+          <a href="mailto:chyzheng@whu.edu.cn">Email</a>
+        </nav>
+      </header>
+      <main class="page-main">
+        <slot />
+      </main>
+      <footer class="site-footer">
+        <span>993216.xyz</span>
+        <span>Built with Astro</span>
+      </footer>
+    </div>
+  </body>
+</html>
