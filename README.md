@@ -2,6 +2,8 @@
 
 Zachary 的个人主页，计划使用 Astro 构建并部署到 Cloudflare Pages。
 
+详细搭建、部署和维护记录见 [PROJECT_SUMMARY.md](PROJECT_SUMMARY.md)。
+
 ## Scripts
 
 - `npm run dev`：本地开发预览
