@@ -5,80 +5,46 @@ const entries = [
   {
     href: '/blog/',
     title: 'Blog',
-    desc: '学术笔记、论文阅读、科研工具与工程复盘。',
-    meta: 'Writing system',
+    desc: '学术笔记、论文阅读与一点技术随笔。',
   },
   {
     href: '/docs/',
     title: 'Docs',
-    desc: '沉淀可复用的研究资料、工具链与知识索引。',
-    meta: 'Knowledge base',
+    desc: '学习资料、研究工具与资源索引。',
   },
   {
     href: '/life/',
     title: 'Life',
-    desc: '保留一点公开生活切片，让技术之外也有温度。',
-    meta: 'Public timeline',
+    desc: '像朋友圈一样记录一些公开片段。',
   },
 ];
-
-const capabilities = ['AI Engineering', 'Geophysics Research', 'Scientific Computing'];
 ---
 
 <BaseLayout title="Zachary" description="Zachary 的个人主页入口。">
   <section class="hero" aria-labelledby="home-title">
     <div class="hero-panel">
-      <div class="hero-copy-stack">
-        <p class="eyebrow">993216.xyz / engineered personal index</p>
+      <div>
+        <p class="eyebrow">993216.xyz / personal index</p>
         <h1 class="hero-title" id="home-title">Zachary</h1>
         <p class="hero-copy">
-          Building a precise personal operating system for research, writing, and engineering. Focused on AI systems, scientific workflows, and geophysics.
+          一个轻量的个人主页入口，连接写作、资料和生活记录。先保持干净，内容慢慢长出来。
         </p>
-        <div class="signal-row" aria-label="能力标签">
-          {capabilities.map((item) => <span class="signal-chip">{item}</span>)}
-        </div>
       </div>
 
-      <aside class="code-card" aria-label="代码编辑器风格简介">
-        <div class="code-card-bar" aria-hidden="true">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-        <pre><code><span class="code-muted">const</span> profile = {'{'}
-  role: <span class="code-string">'AI engineer / researcher'</span>,
-  field: <span class="code-string">'geophysics'</span>,
-  stack: [<span class="code-string">'Astro'</span>, <span class="code-string">'Python'</span>, <span class="code-string">'systems'</span>],
-  principle: <span class="code-string">'clarity over noise'</span>
-{'}'};</code></pre>
-      </aside>
+      <ul class="entry-list" aria-label="主页入口">
+        {entries.map((entry, index) => (
+          <li>
+            <a class="entry-link" href={entry.href}>
+              <span class="entry-index">0{index + 1}</span>
+              <span>
+                <span class="entry-title">{entry.title}</span>
+                <span class="entry-desc">{entry.desc}</span>
+              </span>
+              <span class="entry-arrow" aria-hidden="true">-&gt;</span>
+            </a>
+          </li>
+        ))}
+      </ul>
     </div>
-
-    <ul class="entry-list bento-grid" aria-label="主页入口">
-      {entries.map((entry, index) => (
-        <li>
-          <a class="entry-link bento-card" href={entry.href}>
-            <span class="entry-index">0{index + 1}</span>
-            <span class="entry-content">
-              <span class="entry-meta">{entry.meta}</span>
-              <span class="entry-title">{entry.title}</span>
-              <span class="entry-desc">{entry.desc}</span>
-            </span>
-            <span class="entry-arrow" aria-hidden="true">-&gt;</span>
-          </a>
-        </li>
-      ))}
-      <li>
-        <a class="entry-link bento-card bento-card-soft" href="mailto:chyzheng@whu.edu.cn">
-          <span class="entry-index">04</span>
-          <span class="entry-content">
-            <span class="entry-meta">Contact</span>
-            <span class="entry-title">Email</span>
-            <span class="entry-desc">交流研究、工程和长期主义的内容系统。</span>
-          </span>
-          <span class="entry-arrow" aria-hidden="true">-&gt;</span>
-        </a>
-      </li>
-    </ul>
   </section>
 </BaseLayout>
